@@ -1,0 +1,12 @@
+{
+  "arch": {
+    "type": "C3DVAE",
+    "args": {
+      "num_components": 53,
+      "latent_dim": 128,
+      "cond_dim": 64,
+      "smri_embedding_dim": 64,
+      "dropout": 0.1
+    }
+  }
+}

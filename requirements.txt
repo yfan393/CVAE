@@ -1,0 +1,27 @@
+# C3D-VAE requirements
+# Install with: pip install -r requirements.txt
+#
+# Core deep learning
+torch>=2.0.0            # AMP bfloat16, torch.compile
+torchvision>=0.15.0
+
+# Neuroimaging
+nibabel>=4.0.0          # NIfTI file I/O
+nilearn>=0.10.0         # Brain visualisation (plot_epi, plot_stat_map)
+
+# Scientific computing
+numpy>=1.24.0
+scipy>=1.10.0
+scikit-learn>=1.2.0     # train_test_split, mutual_info_score, PCA
+
+# Data handling
+pandas>=1.5.0
+
+# Parallelism (MI computation)
+joblib>=1.2.0           # Parallel MI over B×K pairs
+
+# Visualisation
+matplotlib>=3.7.0
+
+# Optional — only needed if using torch.compile on older systems
+# triton>=2.0.0         # required by torch.compile on some CUDA versions

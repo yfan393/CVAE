@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# PyTorch checkpoints and outputs (large binary files)
+saved/
+*.pth
+*.pt
+*.ckpt
+
+# Generated outputs (plots, CSVs, results)
+eval_results/
+ablation_results/
+eda_results/
+logs/
+epoch_*/
+
+# Data files (NIfTI volumes — never commit large imaging data)
+*.nii
+*.nii.gz
+*.mgz
+data/
+
+# CSV files in data_loader (subject manifests may contain private paths)
+data_loader/ukbb.csv
+
+# OS
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Slurm output (can be large)
+slurm-*.out
+
+# Wandb / MLflow runs
+wandb/
+mlruns/

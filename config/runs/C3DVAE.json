@@ -1,0 +1,29 @@
+{
+    "run_type": "C3DVAE",
+    "seed": 42,
+
+    "trainer": {
+        "epochs":      10,
+        "save_dir":    "saved/C3DVAE/",
+        "vis_every":   10,
+        "log_every":   10,
+        "patience":    30
+    },
+
+    "optimizer": {
+        "type": "AdamW",
+        "args": {
+            "lr":           3e-4,
+            "weight_decay": 1e-5,
+            "amsgrad":      true
+        }
+    },
+
+    "loss_weights": {
+        "lambda1":       1.0,
+        "lambda2":       0.5,
+        "lambda3":       0.1,
+        "lambda4":       0.001,
+        "warmup_epochs": 2
+    }
+}
