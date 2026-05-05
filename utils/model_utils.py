@@ -27,20 +27,33 @@ from typing import Dict
 
 def load_model(path: str, device: torch.device):
     """
-    Load a C3DVAE from a checkpoint written by CVAETrainer
+    Load a C3DVAE from a checkpoint written by CVAETrainer.
     Returns the model in eval mode on `device`.
+
+    Architecture dimensions are inferred directly from the state_dict so
+    the model is always built with the correct shape regardless of what
+    is (or isn't) stored in the checkpoint's config dict.
     """
     from model.cvae import C3DVAE   # deferred to avoid circular import
 
-    ckpt  = torch.load(path, map_location=device)
-    cfg   = ckpt.get('config', {})
+    ckpt = torch.load(path, map_location=device, weights_only=False)
+    sd   = ckpt['state_dict']
+
+    # Infer dimensions from weight shapes — robust to any latent_dim value.
+    # fc_mu.weight : (latent_dim, embedding_dim)
+    # decoder.proj.0.weight : (seed_dim, latent_dim + cond_dim)
+    latent_dim = sd['smri_encoder.fc_mu.weight'].shape[0]
+    seed_dim   = sd['decoder.proj.0.weight'].shape[0]       # 64 * 8^3 = 32768
+    cond_dim   = sd['decoder.proj.0.weight'].shape[1] - latent_dim
+
+    cfg = ckpt.get('config', {})
     model = C3DVAE(
         num_components = cfg.get('num_components', 53),
-        latent_dim     = cfg.get('latent_dim',     512),
-        cond_dim       = cfg.get('cond_dim',        64),
+        latent_dim     = latent_dim,
+        cond_dim       = cond_dim,
         dropout        = 0.0,   # always disable dropout at inference
     ).to(device)
-    model.load_state_dict(ckpt['state_dict'])
+    model.load_state_dict(sd)
     model.eval()
     return model
 
